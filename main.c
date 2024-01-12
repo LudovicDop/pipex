@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/12 18:25:09 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/12 18:40:34 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,22 @@
 
 int	main(int argc, char **argv)
 {
+	pid_t	pid;
     char    *execv_args[3];
 
+	pid = fork();
+	if (pid == 0)
+	{
+		printf("Child pid = %d\n",getpid());
+	}
+	else if (pid > 1)
+	{
+		printf("Parent pid = %d\n",getpid());
+	}
+	else
+	{
+		perror("fork");
+	}
 	//unlink("./file1");
 	if (argc == 3)
 	{
