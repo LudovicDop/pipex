@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/12 18:00:55 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/12 18:25:09 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	main(int argc, char **argv)
 {
     char    *execv_args[3];
 
+	//unlink("./file1");
 	if (argc == 3)
 	{
         execv_args[0] = argv[1];
