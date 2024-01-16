@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ludovicdoppler <ludovicdoppler@student.    +#+  +:+       +#+        */
+/*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/16 13:11:06 by ludovicdopp      ###   ########.fr       */
+/*   Updated: 2024/01/16 15:09:52 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ int	allocate_info(char **argv, t_execve **info_execve, char **args)
 	(*info_execve)->exec_file = ft_strdup(argv[2]);
 	if (!(*info_execve)->exec_file)
 		return (3);
-	(*info_execve)->exec_file_path = ft_strjoin("/bin/", ft_strdup(argv[2]));
+	(*info_execve)->exec_file_path = ft_strjoin("/bin/", argv[2]);
 	if (!(*info_execve)->exec_file_path)
 		return (4);
-	(*info_execve)->exec_file_bis = ft_strjoin("/bin/", ft_strdup(argv[3]));
+	(*info_execve)->exec_file_bis = ft_strjoin("/bin/", argv[3]);
 	if (!(*info_execve)->exec_file_bis)
 		return (5);
 	(*info_execve)->file2 = ft_strdup(argv[4]);
@@ -98,7 +98,7 @@ int	main(int argc, char **argv)
 	{
 		//Parent process
 	}
-	//free_info_execve(&info_execve);
-	//free_char_array(args);
+	free_info_execve(&info_execve);
+	free_char_array(args);
 	return (0);
 }
