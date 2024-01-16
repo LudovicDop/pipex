@@ -3,44 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ludovicdoppler <ludovicdoppler@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/12 18:40:34 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/15 16:23:28 by ludovicdopp      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include <fcntl.h>
 
+/*
+fd[0] - read
+fd[1] - write
+*/
 int	main(int argc, char **argv)
 {
-	pid_t	pid;
-    char    *execv_args[3];
+	int	fd[2];
+	int	id;
 
-	pid = fork();
-	if (pid == 0)
+	if(pipe(fd) == -1)
+		perror("pipe");
+	id = fork();
+	if (id == 0)
 	{
-		printf("Child pid = %d\n",getpid());
-	}
-	else if (pid > 1)
-	{
-		printf("Parent pid = %d\n",getpid());
-	}
-	else
-	{
-		perror("fork");
-	}
-	//unlink("./file1");
-	if (argc == 3)
-	{
-        execv_args[0] = argv[1];
-        execv_args[1] = argv[2];
-        execv_args[2] = NULL;
-        execv(execv_args[0], execv_args);
-        perror("execv");
+		close(fd[0]);
+		int x = 5;
+		write(fd[1], &x, sizeof(int));
+		close(fd[1]);
+		
 	}
 	else
 	{
-		ft_putstr_fd("❌ Too many or not enough arguments ❌\n", 2);
+		int y;
+		close(fd[1]);
+		read(fd[0], &y, sizeof(int));
+		printf("%d\n",y);
+		close(fd[0]);
 	}
+	return (0);
 }
