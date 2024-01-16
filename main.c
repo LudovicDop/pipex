@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/16 17:11:41 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/16 17:49:41 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,23 +54,6 @@ int	allocate_info(char **argv, t_execve **info_execve)
 	return (0);
 }
 
-void	free_char_array(char **array)
-{
-	int	i;
-
-	if (array == NULL)
-	{
-		return ;
-	}
-	i = 0;
-	while (array[i] != NULL)
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
-}
-
 void	free_info_execve(t_execve **info_execve)
 {
 	free((*info_execve)->file1);
@@ -81,35 +64,6 @@ void	free_info_execve(t_execve **info_execve)
 	free(*info_execve);
 }
 
-void	child_process(int fd, char **args, t_execve *info_execve, int *pipefd)
-{
-	char	buf[10000];
-
-	// Child process
-	close(pipefd[0]);
-	dup2(pipefd[1], STDOUT_FILENO);
-	close(pipefd[1]);
-	execve(info_execve->exec_file_path, args, NULL);
-	perror("execve");
-	exit(EXIT_SUCCESS);
-}
-
-void	parent_process(int *pipefd)
-{
-	char	bufparent[10000];
-	int		nbytes;
-
-	// Parent process
-	close(pipefd[1]);
-	nbytes = read(pipefd[0], bufparent, sizeof(bufparent) - 1);
-	if (nbytes > 0)
-	{
-		bufparent[nbytes] = '\0';
-		printf("%s\n", bufparent);
-	}
-	close(pipefd[0]);
-	wait(NULL);
-}
 void	start_fork_pipe(int *pipefd, t_execve **info_execve)
 {
 	if (pipe(pipefd) == -1)
@@ -124,6 +78,7 @@ void	start_fork_pipe(int *pipefd, t_execve **info_execve)
 		exit(EXIT_FAILURE);
 	}
 }
+
 int	main(int argc, char **argv)
 {
 	t_execve	*info_execve;

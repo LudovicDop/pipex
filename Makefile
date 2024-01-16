@@ -1,5 +1,5 @@
 MAKEFLAGS += --silent
-SRC = main.c
+SRC = main.c parent.c child.c utils.c
 CC = gcc -g -fsanitize=address
 NAME = pipex
 
