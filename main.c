@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/16 15:48:50 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/16 16:44:29 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,14 @@ void free_info_execve(t_execve **info_execve)
 
 void	child_process(int fd, char **args, t_execve *info_execve, int *pipefd)
 {
+		char buf[1000];
 		//Child process
+		close(pipefd[0]);
+		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
-		close(STDOUT_FILENO);
-		dup2(fd, STDOUT_FILENO);
+
 		execve(info_execve->exec_file_path, args, NULL);
 		perror("execve");
-		close(pipefd[0]);
 		exit(EXIT_SUCCESS);
 }
 
@@ -85,6 +86,7 @@ int	main(int argc, char **argv)
 	t_execve 	*info_execve;
 	char 		**args;
 	int			pipefd[2];
+	char bufparent[1000];
 
 	if (argc != 5)
 		return (1);
@@ -95,7 +97,8 @@ int	main(int argc, char **argv)
 	args[0] = ft_strdup(info_execve->exec_file);
 	args[1] = ft_strdup(info_execve->file1);
 	args[2] = NULL;
-	info_execve->fd = open(info_execve->file2, O_WRONLY);
+	unlink(info_execve->file2);
+	info_execve->fd = open(info_execve->file2, O_WRONLY | O_CREAT);
 	if (pipe(pipefd) == -1)
 	{
 		perror("pipe");
@@ -112,6 +115,15 @@ int	main(int argc, char **argv)
 	else
 	{
 		//Parent process
+		close(pipefd[1]);
+		int nBytes = read(pipefd[0], bufparent, sizeof(bufparent) - 1);
+		if (nBytes > 0)
+		{
+			bufparent[nBytes] = '\0';
+			printf("%s\n",bufparent);	
+		}
+		close(pipefd[0]);
+		wait(NULL);
 	}
 	free_info_execve(&info_execve);
 	free_char_array(args);
