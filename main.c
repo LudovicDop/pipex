@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/16 15:33:50 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/16 15:48:50 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,21 +68,24 @@ void free_info_execve(t_execve **info_execve)
 	free(*info_execve);
 }
 
-void	child_process(int fd, char **args, t_execve *info_execve)
+void	child_process(int fd, char **args, t_execve *info_execve, int *pipefd)
 {
 		//Child process
+		close(pipefd[1]);
 		close(STDOUT_FILENO);
 		dup2(fd, STDOUT_FILENO);
 		execve(info_execve->exec_file_path, args, NULL);
 		perror("execve");
+		close(pipefd[0]);
+		exit(EXIT_SUCCESS);
 }
 
 int	main(int argc, char **argv)
 {
 	t_execve 	*info_execve;
 	char 		**args;
-	int			pipex[2];
-	
+	int			pipefd[2];
+
 	if (argc != 5)
 		return (1);
 	allocate_info(argv, &info_execve, args);
@@ -93,9 +96,19 @@ int	main(int argc, char **argv)
 	args[1] = ft_strdup(info_execve->file1);
 	args[2] = NULL;
 	info_execve->fd = open(info_execve->file2, O_WRONLY);
+	if (pipe(pipefd) == -1)
+	{
+		perror("pipe");
+		exit(EXIT_FAILURE);
+	}
 	info_execve->id = fork();
+	if (info_execve->id == -1)
+	{
+		perror("fork");
+		exit(EXIT_FAILURE);
+	}
 	if (info_execve->id == 0)
-		child_process(info_execve->fd, args, info_execve);
+		child_process(info_execve->fd, args, info_execve, pipefd);
 	else
 	{
 		//Parent process
