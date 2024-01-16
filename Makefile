@@ -1,6 +1,6 @@
 MAKEFLAGS += --silent
 SRC = main.c
-CC = gcc
+CC = gcc -fsanitize=address -g
 NAME = pipex
 
 all : $(NAME)
