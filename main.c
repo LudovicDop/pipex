@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/16 17:49:41 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/17 14:02:42 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,32 +54,32 @@ int	allocate_info(char **argv, t_execve **info_execve)
 	return (0);
 }
 
-void	free_info_execve(t_execve **info_execve)
+void	free_info_execve(t_execve *info_execve)
 {
-	free((*info_execve)->file1);
-	free((*info_execve)->exec_file);
-	free((*info_execve)->exec_file_path);
-	free((*info_execve)->exec_file_bis);
-	free((*info_execve)->file2);
-	free(*info_execve);
+	free(info_execve->file1);
+	free(info_execve->exec_file);
+	free(info_execve->exec_file_path);
+	free(info_execve->exec_file_bis);
+	free(info_execve->file2);
+	free(info_execve);
 }
 
-void	start_fork_pipe(int *pipefd, t_execve **info_execve)
+void	start_fork_pipe(int *pipefd, t_execve *info_execve)
 {
 	if (pipe(pipefd) == -1)
 	{
 		perror("pipe");
 		exit(EXIT_FAILURE);
 	}
-	(*info_execve)->id = fork();
-	if ((*info_execve)->id == -1)
+	info_execve->id = fork();
+	if (info_execve->id == -1)
 	{
 		perror("fork");
 		exit(EXIT_FAILURE);
 	}
 }
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp)
 {
 	t_execve	*info_execve;
 	char		**args;
@@ -89,12 +89,12 @@ int	main(int argc, char **argv)
 		return (1);
 	allocate_info(argv, &info_execve);
 	info_execve->fd = open(info_execve->file2, O_WRONLY | O_CREAT);
-	start_fork_pipe(pipefd, &info_execve);
+	start_fork_pipe(pipefd, info_execve);
 	if (info_execve->id == 0)
 		child_process(info_execve->fd, info_execve->args, info_execve, pipefd);
 	else
 		parent_process(pipefd);
 	free_char_array(info_execve->args);
-	free_info_execve(&info_execve);
+	free_info_execve(info_execve);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 17:38:40 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/16 17:49:32 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/17 14:59:06 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	child_process(int fd, char **args, t_execve *info_execve, int *pipefd)
 {
-	char	buf[10000];
+	//char	buf[10000];
 
 	close(pipefd[0]);
 	dup2(pipefd[1], STDOUT_FILENO);

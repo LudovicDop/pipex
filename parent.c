@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 17:38:45 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/16 17:50:13 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/17 16:22:20 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,22 @@
 
 void	parent_process(int *pipefd)
 {
-	char	bufparent[10000];
-	int		nbytes;
+	char	*ret;
+	char	*new_ret;
+	char	*tmp;
 
+	ret = ft_calloc(1, 1);
+	tmp = get_next_line(pipefd[0]);
 	close(pipefd[1]);
-	nbytes = read(pipefd[0], bufparent, sizeof(bufparent) - 1);
-	if (nbytes > 0)
+	while (tmp)
 	{
-		bufparent[nbytes] = '\0';
-		printf("%s\n", bufparent);
+		new_ret = ft_strjoin(ret, tmp);
+		free(ret);
+		ret = new_ret;
+		free(tmp);
+		tmp = get_next_line(pipefd[0]);
 	}
+	printf("%s\n", ret);
 	close(pipefd[0]);
 	wait(NULL);
 }
