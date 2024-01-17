@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:25:40 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/17 16:26:33 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/17 17:38:32 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_execve
 	int		id;
 	int		fd;
 	char	**args;
+	char	**args_bis;
 }			t_execve;
 
 void		free_char_array(char **array);
