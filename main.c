@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/17 14:02:42 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/17 16:28:45 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	main(int argc, char **argv, char **envp)
 	if (info_execve->id == 0)
 		child_process(info_execve->fd, info_execve->args, info_execve, pipefd);
 	else
-		parent_process(pipefd);
+		parent_process(pipefd, info_execve);
 	free_char_array(info_execve->args);
 	free_info_execve(info_execve);
 	return (0);

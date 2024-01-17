@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:25:40 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/17 14:55:11 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/17 16:26:33 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_execve
 }			t_execve;
 
 void		free_char_array(char **array);
-void		parent_process(int *pipefd);
+void	parent_process(int *pipefd, t_execve *info_execve);
 void		child_process(int fd, char **args, t_execve *info_execve,
 				int *pipefd);
 
