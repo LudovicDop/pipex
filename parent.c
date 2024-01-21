@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 17:38:45 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/17 17:45:20 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/18 19:53:10 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,5 @@ void parent_process(int *pipefd, t_execve *info_execve)
 	dup2(pipefd[0], fd);
     close(pipefd[0]); // Close the read end now that we're done with it
 	execve(info_execve->exec_file_bis_path, info_execve->args_bis, NULL);
-
     wait(NULL); // Wait for the child process to finish
 }

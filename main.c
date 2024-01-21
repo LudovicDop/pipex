@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/17 23:24:58 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/21 16:58:29 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,27 @@ int	allocate_info(char **argv, t_execve **info_execve)
 	(*info_execve)->file1 = ft_strdup(argv[1]);
 	if (!(*info_execve)->file1)
 		return (2);
+	printf("file1 : %s\n", (*info_execve)->file1);
 	(*info_execve)->exec_file = ft_strdup(argv[2]);
 	if (!(*info_execve)->exec_file)
 		return (3);
+	printf("exec_file : %s\n", (*info_execve)->exec_file);
 	(*info_execve)->exec_file_path = ft_strjoin("/bin/", argv[2]);
 	if (!(*info_execve)->exec_file_path)
 		return (4);
-	(*info_execve)->exec_file_bis = ft_strjoin("/bin/", argv[3]);
+	printf("exec_file_path : %s\n",(*info_execve)->exec_file_path);
+	(*info_execve)->exec_file_bis = ft_strdup(argv[4]);
 	if (!(*info_execve)->exec_file_bis)
 		return (5);
-	(*info_execve)->file2 = ft_strdup(argv[4]);
+	printf("exec_file_bis : %s\n",(*info_execve)->exec_file_bis);
+	(*info_execve)->exec_file_bis_path = ft_strjoin("/bin/", argv[4]);
+	if (!(*info_execve)->exec_file_bis_path)
+		return (7);
+	printf("exec_file_bis_path : %s\n", (*info_execve)->exec_file_bis_path);
+	(*info_execve)->file2 = ft_strdup(argv[3]);
 	if (!(*info_execve)->exec_file_path)
 		return (6);
+	printf("file2 : %s\n",(*info_execve)->file2);
 	allocate_info_bis(info_execve);
 	return (0);
 }
@@ -63,6 +72,7 @@ void	free_info_execve(t_execve *info_execve)
 	free(info_execve->file1);
 	free(info_execve->exec_file);
 	free(info_execve->exec_file_path);
+	free(info_execve->exec_file_bis_path);
 	free(info_execve->exec_file_bis);
 	free(info_execve->file2);
 	free(info_execve);
