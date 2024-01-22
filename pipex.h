@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ludovicdoppler <ludovicdoppler@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:25:40 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/17 23:07:14 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/22 10:20:16 by ludovicdopp      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ void		free_char_array(char **array);
 void	parent_process(int *pipefd, t_execve *info_execve);
 void		child_process(int fd, char **args, t_execve *info_execve,
 				int *pipefd);
+char	*search_path(char **envp);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ludovicdoppler <ludovicdoppler@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/22 09:53:03 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/22 10:21:36 by ludovicdopp      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 5)
 		return (1);
+	printf("%s\n",search_path(envp));
 	allocate_info(argv, &info_execve);
 	info_execve->fd = open(info_execve->file2, O_WRONLY | O_CREAT);
 	start_fork_pipe(pipefd, info_execve);
