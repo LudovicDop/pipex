@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/22 09:46:53 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/22 09:53:03 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,19 @@ fd[1] - write
 
 int	allocate_info_bis(t_execve **info_execve)
 {
+	printf("\n\n");
 	(*info_execve)->args = (char **)malloc(sizeof(char *) * 3);
 	(*info_execve)->args[0] = ft_strdup((*info_execve)->exec_file);
+	printf("args[0] = %s\n", (*info_execve)->args[0]);
 	(*info_execve)->args[1] = ft_strdup((*info_execve)->file1);
+	printf("args[1] = %s\n", (*info_execve)->args[1]);
 	(*info_execve)->args[2] = NULL;
 	
 	(*info_execve)->args_bis = (char **)malloc(sizeof(char *) * 3);
 	(*info_execve)->args_bis[0] = ft_strdup((*info_execve)->exec_file_bis);
+	printf("2.args[0] = %s\n", (*info_execve)->exec_file_bis);
 	(*info_execve)->args_bis[1] = ft_strdup((*info_execve)->file1);
+	printf("2.args[1] = %s\n", (*info_execve)->file1);
 	(*info_execve)->args_bis[2] = NULL;
 	return (0);
 }
