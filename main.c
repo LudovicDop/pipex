@@ -6,7 +6,7 @@
 /*   By: ludovicdoppler <ludovicdoppler@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/22 10:21:36 by ludovicdopp      ###   ########.fr       */
+/*   Updated: 2024/01/22 11:15:40 by ludovicdopp      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	allocate_info_bis(t_execve **info_execve)
 	(*info_execve)->args_bis[0] = ft_strdup((*info_execve)->exec_file_bis);
 	printf("2.args[0] = %s\n", (*info_execve)->exec_file_bis);
 	(*info_execve)->args_bis[1] = ft_strdup((*info_execve)->file1);
-	printf("2.args[1] = %s\n", (*info_execve)->file1);
+	printf("2.args[1] = %s\n", (*info_execve)->file2);
 	(*info_execve)->args_bis[2] = NULL;
 	return (0);
 }
@@ -60,7 +60,7 @@ int	allocate_info(char **argv, t_execve **info_execve)
 	if (!(*info_execve)->exec_file_bis)
 		return (5);
 	printf("exec_file_bis : %s\n",(*info_execve)->exec_file_bis);
-	(*info_execve)->exec_file_bis_path = ft_strjoin("/bin/", argv[3]);
+	(*info_execve)->exec_file_bis_path = ft_strjoin("/usr/bin/", argv[3]);
 	if (!(*info_execve)->exec_file_bis_path)
 		return (7);
 	printf("exec_file_bis_path : %s\n", (*info_execve)->exec_file_bis_path);
