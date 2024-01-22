@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ludovicdoppler <ludovicdoppler@student.    +#+  +:+       +#+        */
+/*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/22 12:07:40 by ludovicdopp      ###   ########.fr       */
+/*   Updated: 2024/01/22 15:50:15 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,35 @@ fd[0] - read
 fd[1] - write
 */
 
+char*	ft_strchr_reverse(char *string, int c)
+{
+	int	i;
+	int size;
+	char *ret;
+
+	i = 0;
+	size = 0;
+	if (!string)
+		return (NULL);
+	while (string[i++])
+	{
+		if (string[i] == c)
+		{
+			size = i + 1;
+			ret = malloc(sizeof(char) * size);
+			if (!ret)
+				return (NULL);
+		}
+	}
+	if (size == 0)
+		return (NULL);
+	i = 0;
+	while (i < size - 1)
+		ret[i++]= string[i];
+	ret[i] = '\0';
+	printf("La %s\n", ret);
+	return (ret);
+}
 int	allocate_info_bis(t_execve **info_execve)
 {
 	printf("\n\n");
@@ -29,11 +58,11 @@ int	allocate_info_bis(t_execve **info_execve)
 	(*info_execve)->args[2] = NULL;
 	
 	(*info_execve)->args_bis = (char **)malloc(sizeof(char *) * 4);
-	(*info_execve)->args_bis[0] = ft_strdup((*info_execve)->exec_file_bis);
-	printf("2.args[0] = %s\n", (*info_execve)->args_bis[0]);
-	(*info_execve)->args_bis[1] = ft_strdup((*info_execve)->file1);
+	(*info_execve)->args_bis[0] = ft_strdup(ft_strchr((*info_execve)->exec_file_bis, ' '));	
+	printf("2.args[0] =%s\n", (*info_execve)->args_bis[0]);
+	(*info_execve)->args_bis[1] = ft_strdup(ft_strchr((*info_execve)->exec_file_bis, '-'));
+	printf("2.args[1] =%s\n", (*info_execve)->args_bis[1]);
 	(*info_execve)->args_bis[2] = NULL;
-	printf("2.args[1] = %s\n", (*info_execve)->file2);
 	return (0);
 }
 
@@ -60,9 +89,19 @@ int	allocate_info(char **argv, t_execve **info_execve)
 	if (!(*info_execve)->exec_file_bis)
 		return (5);
 	printf("exec_file_bis : %s\n",(*info_execve)->exec_file_bis);
-	(*info_execve)->exec_file_bis_path = ft_strjoin("/usr/bin/", argv[3]);
-	if (!(*info_execve)->exec_file_bis_path)
-		return (7);
+	if (ft_strchr_reverse(argv[3], ' ') != NULL)
+	{
+		(*info_execve)->exec_file_bis_path = ft_strjoin("/usr/bin/", ft_strchr_reverse(argv[3], ' '));
+		if (!(*info_execve)->exec_file_bis_path)
+			return (7);
+	}
+	else
+	{
+		printf("ok\n");
+		(*info_execve)->exec_file_bis_path = ft_strjoin("/usr/bin/", argv[3]);
+		if (!(*info_execve)->exec_file_bis_path)
+			return (7);
+	}
 	printf("exec_file_bis_path : %s\n", (*info_execve)->exec_file_bis_path);
 	(*info_execve)->file2 = ft_strdup(argv[4]);
 	if (!(*info_execve)->exec_file_path)
@@ -108,14 +147,14 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	printf("%s\n",search_path(envp));
 	allocate_info(argv, &info_execve);
-	info_execve->fd = open(info_execve->file2, O_WRONLY | O_CREAT);
-	start_fork_pipe(pipefd, info_execve);
-	if (info_execve->id == 0)
-		child_process(info_execve->fd, info_execve->args, info_execve, pipefd);
-	else
-		parent_process(pipefd, info_execve);
-	free_char_array(info_execve->args_bis);
-	free_char_array(info_execve->args);
-	free_info_execve(info_execve);
+	// info_execve->fd = open(info_execve->file2, O_WRONLY | O_CREAT);
+	// start_fork_pipe(pipefd, info_execve);
+	// if (info_execve->id == 0)
+	// 	child_process(info_execve->fd, info_execve->args, info_execve, pipefd);
+	// else
+	// 	parent_process(pipefd, info_execve);
+	// free_char_array(info_execve->args_bis);
+	// free_char_array(info_execve->args);
+	// free_info_execve(info_execve);
 	return (0);
 }

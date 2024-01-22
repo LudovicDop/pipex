@@ -6,11 +6,11 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 12:16:13 by ldoppler          #+#    #+#             */
-/*   Updated: 2023/10/17 12:25:38 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/22 13:02:00 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strchr(char *s, int c)
 {
 	int				i;
 	unsigned char	*ret;
@@ -25,5 +25,5 @@ char	*ft_strchr(const char *s, int c)
 	{
 		return ((char *)(ret + i));
 	}
-	return (0);
+	return (s);
 }
