@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/21 16:58:29 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/22 09:46:53 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,15 @@ int	allocate_info(char **argv, t_execve **info_execve)
 	if (!(*info_execve)->exec_file_path)
 		return (4);
 	printf("exec_file_path : %s\n",(*info_execve)->exec_file_path);
-	(*info_execve)->exec_file_bis = ft_strdup(argv[4]);
+	(*info_execve)->exec_file_bis = ft_strdup(argv[3]);
 	if (!(*info_execve)->exec_file_bis)
 		return (5);
 	printf("exec_file_bis : %s\n",(*info_execve)->exec_file_bis);
-	(*info_execve)->exec_file_bis_path = ft_strjoin("/bin/", argv[4]);
+	(*info_execve)->exec_file_bis_path = ft_strjoin("/bin/", argv[3]);
 	if (!(*info_execve)->exec_file_bis_path)
 		return (7);
 	printf("exec_file_bis_path : %s\n", (*info_execve)->exec_file_bis_path);
-	(*info_execve)->file2 = ft_strdup(argv[3]);
+	(*info_execve)->file2 = ft_strdup(argv[4]);
 	if (!(*info_execve)->exec_file_path)
 		return (6);
 	printf("file2 : %s\n",(*info_execve)->file2);
