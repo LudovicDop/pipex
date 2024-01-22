@@ -6,7 +6,7 @@
 /*   By: ludovicdoppler <ludovicdoppler@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/22 11:15:40 by ludovicdopp      ###   ########.fr       */
+/*   Updated: 2024/01/22 12:07:40 by ludovicdopp      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ int	allocate_info_bis(t_execve **info_execve)
 	printf("args[1] = %s\n", (*info_execve)->args[1]);
 	(*info_execve)->args[2] = NULL;
 	
-	(*info_execve)->args_bis = (char **)malloc(sizeof(char *) * 3);
+	(*info_execve)->args_bis = (char **)malloc(sizeof(char *) * 4);
 	(*info_execve)->args_bis[0] = ft_strdup((*info_execve)->exec_file_bis);
-	printf("2.args[0] = %s\n", (*info_execve)->exec_file_bis);
+	printf("2.args[0] = %s\n", (*info_execve)->args_bis[0]);
 	(*info_execve)->args_bis[1] = ft_strdup((*info_execve)->file1);
-	printf("2.args[1] = %s\n", (*info_execve)->file2);
 	(*info_execve)->args_bis[2] = NULL;
+	printf("2.args[1] = %s\n", (*info_execve)->file2);
 	return (0);
 }
 
