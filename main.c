@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/23 11:50:07 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/23 11:54:41 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ char*	ft_strchr_reverse(char *string, int c)
 	while (i < size - 1)
 		ret[i++]= string[i];
 	ret[i] = '\0';
-	printf("La %s\n", ret);
 	return (ret);
 }
 int	allocate_info_bis(t_execve **info_execve, char **argv)
@@ -72,15 +71,15 @@ int	allocate_info(char **argv, t_execve **info_execve)
 	if (!(*info_execve)->file1)
 		return (2);
 	printf("file1 : %s\n", (*info_execve)->file1);
-	(*info_execve)->exec_file = ft_strdup(argv[2]);
+	(*info_execve)->exec_file = ft_strdup(ft_strchr_reverse(argv[2], ' '));
 	if (!(*info_execve)->exec_file)
 		return (3);
 	printf("exec_file : %s\n", (*info_execve)->exec_file);
-	(*info_execve)->exec_file_path = ft_strjoin("/bin/", argv[2]);
+	(*info_execve)->exec_file_path = ft_strjoin("/bin/", ft_strchr_reverse(argv[2], ' '));
 	if (!(*info_execve)->exec_file_path)
 		return (4);
 	printf("exec_file_path : %s\n",(*info_execve)->exec_file_path);
-	(*info_execve)->exec_file_bis = ft_strdup(argv[3]);
+	(*info_execve)->exec_file_bis = ft_strdup(ft_strchr_reverse(argv[3], ' '));
 	if (!(*info_execve)->exec_file_bis)
 		return (5);
 	printf("exec_file_bis : %s\n",(*info_execve)->exec_file_bis);
