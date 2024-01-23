@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/23 11:54:41 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/23 12:17:45 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,31 +71,41 @@ int	allocate_info(char **argv, t_execve **info_execve)
 	if (!(*info_execve)->file1)
 		return (2);
 	printf("file1 : %s\n", (*info_execve)->file1);
-	(*info_execve)->exec_file = ft_strdup(ft_strchr_reverse(argv[2], ' '));
-	if (!(*info_execve)->exec_file)
-		return (3);
-	printf("exec_file : %s\n", (*info_execve)->exec_file);
-	(*info_execve)->exec_file_path = ft_strjoin("/bin/", ft_strchr_reverse(argv[2], ' '));
-	if (!(*info_execve)->exec_file_path)
-		return (4);
-	printf("exec_file_path : %s\n",(*info_execve)->exec_file_path);
-	(*info_execve)->exec_file_bis = ft_strdup(ft_strchr_reverse(argv[3], ' '));
-	if (!(*info_execve)->exec_file_bis)
-		return (5);
-	printf("exec_file_bis : %s\n",(*info_execve)->exec_file_bis);
-	if (ft_strchr_reverse(argv[3], ' ') != NULL)
+	if (ft_strchr_reverse(argv[2], ' ') != NULL)
 	{
-		(*info_execve)->exec_file_bis_path = ft_strjoin("/usr/bin/", ft_strchr_reverse(argv[3], ' '));
-		if (!(*info_execve)->exec_file_bis_path)
-			return (7);
+		(*info_execve)->exec_file = ft_strdup(ft_strchr_reverse(argv[2], ' '));
+		if (!(*info_execve)->exec_file)
+			return (3);
+		printf("exec_file : %s\n", (*info_execve)->exec_file);
 	}
 	else
 	{
-		printf("ok\n");
-		(*info_execve)->exec_file_bis_path = ft_strjoin("/usr/bin/", argv[3]);
-		if (!(*info_execve)->exec_file_bis_path)
-			return (7);
+		(*info_execve)->exec_file = ft_strdup(argv[2]);
+		if (!(*info_execve)->exec_file)
+			return (3);
+		printf("exec_file : %s\n", (*info_execve)->exec_file);
 	}
+	(*info_execve)->exec_file_path = ft_strjoin("/bin/", (*info_execve)->exec_file);
+	if (!(*info_execve)->exec_file_path)
+		return (4);
+	printf("exec_file_path : %s\n",(*info_execve)->exec_file_path);
+	if (ft_strchr_reverse(argv[2], ' ') != NULL)
+	{
+		(*info_execve)->exec_file_bis = ft_strdup(ft_strchr_reverse(argv[3], ' '));
+		if (!(*info_execve)->exec_file_bis)
+			return (5);
+		printf("exec_file_bis : %s\n",(*info_execve)->exec_file_bis);
+	}
+	else
+	{
+		(*info_execve)->exec_file_bis = ft_strdup(argv[3]);
+		if (!(*info_execve)->exec_file_bis)
+			return (5);
+		printf("exec_file_bis : %s\n",(*info_execve)->exec_file_bis);
+	}
+	(*info_execve)->exec_file_bis_path = ft_strjoin("/usr/bin/", (*info_execve)->exec_file_bis);
+	if (!(*info_execve)->exec_file_bis_path)
+		return (7);
 	printf("exec_file_bis_path : %s\n", (*info_execve)->exec_file_bis_path);
 	(*info_execve)->file2 = ft_strdup(argv[4]);
 	if (!(*info_execve)->exec_file_path)
