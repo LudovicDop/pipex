@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parent.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ludovicdoppler <ludovicdoppler@student.    +#+  +:+       +#+        */
+/*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 17:38:45 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/22 11:25:01 by ludovicdopp      ###   ########.fr       */
+/*   Updated: 2024/01/23 16:33:04 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,12 @@ void parent_process(int *pipefd, t_execve *info_execve) {
     close(pipefd[1]);
 
     // Open file2 for writing
-    int fd = open(info_execve->file2, O_WRONLY);
+    int fd = open(info_execve->file2, O_WRONLY | O_CREAT);
     if (fd == -1) {
         perror("open");
         exit(EXIT_FAILURE);
     }
-    printf("fd : %d\n", fd);
-
+    //printf("fd : %d\n", fd);
     // Redirect standard input to read from the pipe
     if (dup2(pipefd[0], STDIN_FILENO) == -1) {
         perror("dup2");
@@ -47,7 +46,6 @@ void parent_process(int *pipefd, t_execve *info_execve) {
         perror("execve");
         exit(EXIT_FAILURE);
     }
-
     // If execve returns, it must have failed
     perror("execve");
     exit(EXIT_FAILURE);

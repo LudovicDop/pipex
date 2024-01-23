@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/23 12:17:45 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/23 13:57:14 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	allocate_info_bis(t_execve **info_execve, char **argv)
 	(*info_execve)->args_bis = ft_split(argv[3], ' ');
 	printf("2.args[0] =%s\n", (*info_execve)->args_bis[0]);
 	printf("2.args[1] =%s\n", (*info_execve)->args_bis[1]);
+	printf("2.args[1] =%s\n", (*info_execve)->args_bis[2]);
 	return (0);
 }
 
@@ -89,7 +90,7 @@ int	allocate_info(char **argv, t_execve **info_execve)
 	if (!(*info_execve)->exec_file_path)
 		return (4);
 	printf("exec_file_path : %s\n",(*info_execve)->exec_file_path);
-	if (ft_strchr_reverse(argv[2], ' ') != NULL)
+	if (ft_strchr_reverse(argv[3], ' ') != NULL)
 	{
 		(*info_execve)->exec_file_bis = ft_strdup(ft_strchr_reverse(argv[3], ' '));
 		if (!(*info_execve)->exec_file_bis)
@@ -151,14 +152,14 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	printf("%s\n",search_path(envp));
 	allocate_info(argv, &info_execve);
-	// info_execve->fd = open(info_execve->file2, O_WRONLY | O_CREAT);
-	// start_fork_pipe(pipefd, info_execve);
-	// if (info_execve->id == 0)
-	// 	child_process(info_execve->fd, info_execve->args, info_execve, pipefd);
-	// else
-	// 	parent_process(pipefd, info_execve);
-	// free_char_array(info_execve->args_bis);
-	// free_char_array(info_execve->args);
-	// free_info_execve(info_execve);
+	info_execve->fd = open(info_execve->file2, O_WRONLY | O_CREAT);
+	start_fork_pipe(pipefd, info_execve);
+	if (info_execve->id == 0)
+		child_process(info_execve->fd, info_execve->args, info_execve, pipefd);
+	else
+		parent_process(pipefd, info_execve);
+	free_char_array(info_execve->args_bis);
+	free_char_array(info_execve->args);
+	free_info_execve(info_execve);
 	return (0);
 }
