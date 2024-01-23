@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/23 11:34:02 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/23 11:50:07 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,22 +47,17 @@ char*	ft_strchr_reverse(char *string, int c)
 	printf("La %s\n", ret);
 	return (ret);
 }
-int	allocate_info_bis(t_execve **info_execve)
+int	allocate_info_bis(t_execve **info_execve, char **argv)
 {
 	printf("\n\n");
-	(*info_execve)->args = (char **)malloc(sizeof(char *) * 3);
-	(*info_execve)->args[0] = ft_strdup((*info_execve)->exec_file);
+	(*info_execve)->args = ft_split(argv[2], ' ');
 	printf("args[0] = %s\n", (*info_execve)->args[0]);
-	(*info_execve)->args[1] = ft_strdup((*info_execve)->file1);
 	printf("args[1] = %s\n", (*info_execve)->args[1]);
-	(*info_execve)->args[2] = NULL;
+
 	
-	(*info_execve)->args_bis = (char **)malloc(sizeof(char *) * 4);
-	(*info_execve)->args_bis[0] = ft_strdup(ft_strchr((*info_execve)->exec_file_bis, ' '));	
+	(*info_execve)->args_bis = ft_split(argv[3], ' ');
 	printf("2.args[0] =%s\n", (*info_execve)->args_bis[0]);
-	(*info_execve)->args_bis[1] = ft_strdup(ft_strchr((*info_execve)->exec_file_bis, '-'));
 	printf("2.args[1] =%s\n", (*info_execve)->args_bis[1]);
-	(*info_execve)->args_bis[2] = NULL;
 	return (0);
 }
 
@@ -107,7 +102,7 @@ int	allocate_info(char **argv, t_execve **info_execve)
 	if (!(*info_execve)->exec_file_path)
 		return (6);
 	printf("file2 : %s\n",(*info_execve)->file2);
-	allocate_info_bis(info_execve);
+	allocate_info_bis(info_execve, argv);
 	return (0);
 }
 
@@ -147,14 +142,14 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	printf("%s\n",search_path(envp));
 	allocate_info(argv, &info_execve);
-	info_execve->fd = open(info_execve->file2, O_WRONLY | O_CREAT);
-	start_fork_pipe(pipefd, info_execve);
-	if (info_execve->id == 0)
-		child_process(info_execve->fd, info_execve->args, info_execve, pipefd);
-	else
-		parent_process(pipefd, info_execve);
-	free_char_array(info_execve->args_bis);
-	free_char_array(info_execve->args);
-	free_info_execve(info_execve);
+	// info_execve->fd = open(info_execve->file2, O_WRONLY | O_CREAT);
+	// start_fork_pipe(pipefd, info_execve);
+	// if (info_execve->id == 0)
+	// 	child_process(info_execve->fd, info_execve->args, info_execve, pipefd);
+	// else
+	// 	parent_process(pipefd, info_execve);
+	// free_char_array(info_execve->args_bis);
+	// free_char_array(info_execve->args);
+	// free_info_execve(info_execve);
 	return (0);
 }
