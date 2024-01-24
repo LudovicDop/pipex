@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/24 15:09:51 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:17:53 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,12 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_execve	*info_execve;
 	int			pipefd[2];
+	char **path;
 
 	if (argc != 5)
 		return (1);
+	path = ft_split(search_path(envp), ':');
+	printf("%s\n",path[0]);
 	if (allocate_info(argv, &info_execve) != 0)
 		exit(EXIT_FAILURE);
 	info_execve->fd = open(info_execve->file1, O_RDONLY);
@@ -115,10 +118,17 @@ int	main(int argc, char **argv, char **envp)
 		free_info_execve(info_execve);
 		exit(EXIT_FAILURE);
 	}
-	info_execve->envp = envp;
+	info_execve->envp = path;
+	printf("%s\n",info_execve->envp [0]);
 	start_fork_pipe(pipefd, info_execve, envp);
 	free_char_array(info_execve->args_bis);
 	free_char_array(info_execve->args);
 	free_info_execve(info_execve);
 	return (0);
 }
+
+/*
+PATH
+ACCESS/LOOP les chemins different
+Bien penser a marcher pour chemin absolut
+*/
