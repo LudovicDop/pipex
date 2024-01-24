@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/24 14:26:03 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/24 15:09:51 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ int	allocate_info_bis_2(t_execve **info_execve, char **argv, char *tmp)
 	{
 		(*info_execve)->exec_file_bis = ft_strdup(tmp);
 		if (!(*info_execve)->exec_file_bis)
-			return (free_info_execve(*info_execve), 5);
-		free(tmp);
+			return (free(tmp), free_info_execve(*info_execve), 5);
 	}
 	else
 	{
@@ -68,11 +67,11 @@ int	allocate_info_bis_2(t_execve **info_execve, char **argv, char *tmp)
 	(*info_execve)->file2 = ft_strdup(argv[4]);
 	if (!(*info_execve)->exec_file_path)
 		return (free_info_execve(*info_execve), 5);
+	return (0);
 }
 
 int	allocate_info(char **argv, t_execve **info_execve)
 {
-	int		fd;
 	char	*tmp;
 
 	*info_execve = malloc(sizeof(t_execve));
@@ -102,7 +101,6 @@ int	allocate_info(char **argv, t_execve **info_execve)
 int	main(int argc, char **argv, char **envp)
 {
 	t_execve	*info_execve;
-	char		**args;
 	int			pipefd[2];
 
 	if (argc != 5)
