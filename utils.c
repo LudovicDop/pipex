@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 17:50:23 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/24 14:04:52 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/24 14:24:03 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,18 @@ void	start_fork_pipe(int *pipefd, t_execve *info_execve, char **envp)
 	if (pipe(pipefd) == -1)
 	{
 		perror("pipe");
+		free_char_array(info_execve->args_bis);
+		free_char_array(info_execve->args);
+		free_info_execve(info_execve);
 		exit(EXIT_FAILURE);
 	}
 	info_execve->id = fork();
 	if (info_execve->id == -1)
 	{
 		perror("fork");
+		free_char_array(info_execve->args_bis);
+		free_char_array(info_execve->args);
+		free_info_execve(info_execve);
 		exit(EXIT_FAILURE);
 	}
 	if (info_execve->id == 0)

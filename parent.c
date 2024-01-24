@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 17:38:45 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/24 11:43:44 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/24 14:14:34 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,14 @@ void	parent_process_bis(int *pipefd, t_execve *info_execve, char **envp,
 		exit(EXIT_FAILURE);
 	}
 	close(fd);
-	if (execve(info_execve->exec_file_bis_path, info_execve->args_bis, envp) ==
-		-1)
+	if (execve(info_execve->exec_file_bis_path, info_execve->args_bis, envp)
+		== -1)
 	{
 		perror("execve");
 		exit(EXIT_FAILURE);
 	}
 }
+
 void	parent_process(int *pipefd, t_execve *info_execve, char **envp)
 {
 	int		wstatus;
