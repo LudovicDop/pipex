@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:25:40 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/24 13:10:11 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:22:44 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,6 @@ void		parent_process(int *pipefd, t_execve *info_execve, char **envp);
 void		child_process(int fd, char **args, t_execve *info_execve,
 			int *pipefd, char **envp);
 char		*search_path(char **envp);
+char	*ft_strdup2(char *s);
 
 #endif
