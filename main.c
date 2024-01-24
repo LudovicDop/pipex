@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/24 14:06:48 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/24 14:26:03 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,13 @@ int	main(int argc, char **argv, char **envp)
 	if (allocate_info(argv, &info_execve) != 0)
 		exit(EXIT_FAILURE);
 	info_execve->fd = open(info_execve->file1, O_RDONLY);
+	if (info_execve->fd < 0)
+	{
+		free_char_array(info_execve->args_bis);
+		free_char_array(info_execve->args);
+		free_info_execve(info_execve);
+		exit(EXIT_FAILURE);
+	}
 	info_execve->envp = envp;
 	start_fork_pipe(pipefd, info_execve, envp);
 	free_char_array(info_execve->args_bis);
