@@ -1,12 +1,2 @@
-total 68
--rw-r--r-- 1 ldoppler 2023_mulhouse  1321 janv. 24 10:56 child.c
--rw-r--r-- 1 ldoppler 2023_mulhouse     0 janv. 24 10:57 file1
--rw-r--r-- 1 ldoppler 2023_mulhouse     2 janv. 24 10:57 file2
-drwxr-xr-x 2 ldoppler 2023_mulhouse  4096 janv. 24 10:57 libft
--rw-r--r-- 1 ldoppler 2023_mulhouse  4663 janv. 24 10:57 main.c
--rw-r--r-- 1 ldoppler 2023_mulhouse   409 janv. 24 10:07 Makefile
--rw-r--r-- 1 ldoppler 2023_mulhouse  2131 janv. 24 10:56 parent.c
--rwxr-xr-x 1 ldoppler 2023_mulhouse 27968 janv. 24 10:57 pipex
--rw-r--r-- 1 ldoppler 2023_mulhouse  1529 janv. 24 10:49 pipex.h
--rw-r--r-- 1 ldoppler 2023_mulhouse     7 janv. 24 10:04 README.md
--rw-r--r-- 1 ldoppler 2023_mulhouse  1248 janv. 24 10:07 utils.c
+Hello
+World

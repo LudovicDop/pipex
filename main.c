@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/24 13:47:14 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:57:48 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,32 +69,8 @@ int	allocate_info_bis(t_execve **info_execve, char **argv)
 	return (0);
 }
 
-
-int	allocate_info(char **argv, t_execve **info_execve)
+int	allocate_info_bis_2(t_execve **info_execve, char **argv, char *tmp)
 {
-	int	fd;
-	char *tmp;
-
-	*info_execve = malloc(sizeof(t_execve));
-	if (!*info_execve)
-		return (1);
-	(*info_execve)->file1 = ft_strdup(argv[1]);
-	if (!(*info_execve)->file1)
-		return (free_info_execve(*info_execve), 2);
-	tmp = ft_strchr_reverse(argv[2], ' ');
-	if (tmp != NULL)
-	{
-		(*info_execve)->exec_file = ft_strdup(tmp);
-		if (!(*info_execve)->exec_file)
-			return (free_info_execve(*info_execve),2);
-		free(tmp);
-	}
-	else
-	{
-		(*info_execve)->exec_file = ft_strdup(argv[2]);
-		if (!(*info_execve)->exec_file)
-			return (free_info_execve(*info_execve),3);
-	}
 	(*info_execve)->exec_file_path = ft_strjoin("/usr/bin/",
 			(*info_execve)->exec_file);
 	if (!(*info_execve)->exec_file_path)
@@ -120,6 +96,33 @@ int	allocate_info(char **argv, t_execve **info_execve)
 	(*info_execve)->file2 = ft_strdup(argv[4]);
 	if (!(*info_execve)->exec_file_path)
 		return (free_info_execve(*info_execve),5);
+}
+int	allocate_info(char **argv, t_execve **info_execve)
+{
+	int	fd;
+	char *tmp;
+
+	*info_execve = malloc(sizeof(t_execve));
+	if (!*info_execve)
+		return (1);
+	(*info_execve)->file1 = ft_strdup(argv[1]);
+	if (!(*info_execve)->file1)
+		return (free_info_execve(*info_execve), 2);
+	tmp = ft_strchr_reverse(argv[2], ' ');
+	if (tmp != NULL)
+	{
+		(*info_execve)->exec_file = ft_strdup(tmp);
+		if (!(*info_execve)->exec_file)
+			return (free_info_execve(*info_execve),2);
+		free(tmp);
+	}
+	else
+	{
+		(*info_execve)->exec_file = ft_strdup(argv[2]);
+		if (!(*info_execve)->exec_file)
+			return (free_info_execve(*info_execve),3);
+	}
+	allocate_info_bis_2(info_execve, argv, tmp);
 	return (allocate_info_bis(info_execve, argv));
 }
 
