@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/24 13:38:40 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:47:14 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,6 @@ char	*ft_strchr_reverse(char *string, int c)
 	ret[i] = '\0';
 	return (ret);
 }
-int	allocate_info_bis(t_execve **info_execve, char **argv)
-{
-	(*info_execve)->args = ft_split(argv[2], ' ');
-	(*info_execve)->args_bis = ft_split(argv[3], ' ');
-	return (0);
-}
-
 void	free_info_execve(t_execve *info_execve)
 {
 	if (info_execve->file1)
@@ -65,6 +58,17 @@ void	free_info_execve(t_execve *info_execve)
 	if (info_execve)
 		free(info_execve);
 }
+int	allocate_info_bis(t_execve **info_execve, char **argv)
+{
+	(*info_execve)->args = ft_split(argv[2], ' ');
+	if (!(*info_execve)->args)
+		return (free_info_execve(*info_execve), 1);
+	(*info_execve)->args_bis = ft_split(argv[3], ' ');
+	if (!(*info_execve)->args_bis)
+		return (free_char_array((*info_execve)->args), 1);
+	return (0);
+}
+
 
 int	allocate_info(char **argv, t_execve **info_execve)
 {
@@ -116,8 +120,7 @@ int	allocate_info(char **argv, t_execve **info_execve)
 	(*info_execve)->file2 = ft_strdup(argv[4]);
 	if (!(*info_execve)->exec_file_path)
 		return (free_info_execve(*info_execve),5);
-	allocate_info_bis(info_execve, argv);
-	return (0);
+	return (allocate_info_bis(info_execve, argv));
 }
 
 void	start_fork_pipe(int *pipefd, t_execve *info_execve, char **envp)
@@ -149,10 +152,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 5)
 		return (1);
 	if (allocate_info(argv, &info_execve) != 0)
-	{
-		printf("dead\n");
 		exit(EXIT_FAILURE);
-	}
 	info_execve->fd = open(info_execve->file1, O_RDONLY);
 	start_fork_pipe(pipefd, info_execve, envp);
 	free_char_array(info_execve->args_bis);
