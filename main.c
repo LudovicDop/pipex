@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/24 11:47:22 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:14:42 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,24 @@ int	allocate_info_bis(t_execve **info_execve, char **argv)
 	return (0);
 }
 
+void	free_info_execve(t_execve *info_execve)
+{
+	if (info_execve->file1)
+		free(info_execve->file1);
+	if (info_execve->exec_file)
+		free(info_execve->exec_file);
+	if (info_execve->exec_file_path)
+		free(info_execve->exec_file_path);
+	if (info_execve->exec_file_bis_path)
+		free(info_execve->exec_file_bis_path);
+	if (info_execve->exec_file_bis)
+		free(info_execve->exec_file_bis);
+	if (info_execve->file2)
+		free(info_execve->file2);
+	if (info_execve)
+		free(info_execve);
+}
+
 int	allocate_info(char **argv, t_execve **info_execve)
 {
 	int	fd;
@@ -57,56 +75,45 @@ int	allocate_info(char **argv, t_execve **info_execve)
 		return (1);
 	(*info_execve)->file1 = ft_strdup(argv[1]);
 	if (!(*info_execve)->file1)
-		return (2);
+		return (free_info_execve(*info_execve), 2);
 	if (ft_strchr_reverse(argv[2], ' ') != NULL)
 	{
 		(*info_execve)->exec_file = ft_strdup(ft_strchr_reverse(argv[2], ' '));
 		if (!(*info_execve)->exec_file)
-			return (3);
+			return (free_info_execve(*info_execve),2);
 	}
 	else
 	{
 		(*info_execve)->exec_file = ft_strdup(argv[2]);
 		if (!(*info_execve)->exec_file)
-			return (3);
+			return (free_info_execve(*info_execve),3);
 	}
-	(*info_execve)->exec_file_path = ft_strjoin("/bin/",
+	(*info_execve)->exec_file_path = ft_strjoin("/usr/bin/",
 			(*info_execve)->exec_file);
 	if (!(*info_execve)->exec_file_path)
-		return (4);
+		return (free_info_execve(*info_execve),4);
 	if (ft_strchr_reverse(argv[3], ' ') != NULL)
 	{
 		(*info_execve)->exec_file_bis = ft_strdup(ft_strchr_reverse(argv[3],
 					' '));
 		if (!(*info_execve)->exec_file_bis)
-			return (5);
+			return (free_info_execve(*info_execve),5);
 	}
 	else
 	{
 		(*info_execve)->exec_file_bis = ft_strdup(argv[3]);
 		if (!(*info_execve)->exec_file_bis)
-			return (5);
+			return (free_info_execve(*info_execve),5);
 	}
 	(*info_execve)->exec_file_bis_path = ft_strjoin("/usr/bin/",
 			(*info_execve)->exec_file_bis);
 	if (!(*info_execve)->exec_file_bis_path)
-		return (7);
+		return (free_info_execve(*info_execve),5);
 	(*info_execve)->file2 = ft_strdup(argv[4]);
 	if (!(*info_execve)->exec_file_path)
-		return (6);
+		return (free_info_execve(*info_execve),5);
 	allocate_info_bis(info_execve, argv);
 	return (0);
-}
-
-void	free_info_execve(t_execve *info_execve)
-{
-	free(info_execve->file1);
-	free(info_execve->exec_file);
-	free(info_execve->exec_file_path);
-	free(info_execve->exec_file_bis_path);
-	free(info_execve->exec_file_bis);
-	free(info_execve->file2);
-	free(info_execve);
 }
 
 void	start_fork_pipe(int *pipefd, t_execve *info_execve, char **envp)
@@ -138,6 +145,11 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 5)
 		return (1);
 	allocate_info(argv, &info_execve);
+	if (allocate_info != 0)
+	{
+		printf("dead\n");
+		exit(EXIT_FAILURE);
+	}
 	info_execve->fd = open(info_execve->file1, O_RDONLY);
 	start_fork_pipe(pipefd, info_execve, envp);
 	free_char_array(info_execve->args_bis);
