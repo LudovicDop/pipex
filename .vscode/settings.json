@@ -3,6 +3,7 @@
     "command": "lorem-ipsum.paragraph",
     "when": "editorTextFocus",
     "files.associations": {
-      "libft.h": "c"
+      "libft.h": "c",
+      "fcntl.h": "c"
     }
   }

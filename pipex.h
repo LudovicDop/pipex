@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:25:40 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/24 13:22:44 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/24 14:06:57 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_execve
 	char	*exec_file_bis_path;
 	char	*file1;
 	char	*file2;
+	char	**envp;
 	int		id;
 	int		fd;
 	char	**args;
@@ -37,8 +38,10 @@ typedef struct s_execve
 void		free_char_array(char **array);
 void		parent_process(int *pipefd, t_execve *info_execve, char **envp);
 void		child_process(int fd, char **args, t_execve *info_execve,
-			int *pipefd, char **envp);
+			int *pipefd);
 char		*search_path(char **envp);
 char	*ft_strdup2(char *s);
+void	start_fork_pipe(int *pipefd, t_execve *info_execve, char **envp);
+char	*ft_strchr_reverse(char *string, int c);
 
 #endif
