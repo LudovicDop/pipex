@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/24 16:17:53 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:49:41 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,6 @@ int	allocate_info(char **argv, t_execve **info_execve)
 {
 	char	*tmp;
 
-	*info_execve = malloc(sizeof(t_execve));
-	if (!*info_execve)
-		return (1);
 	(*info_execve)->file1 = ft_strdup(argv[1]);
 	if (!(*info_execve)->file1)
 		return (free_info_execve(*info_execve), 2);
@@ -106,8 +103,10 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 5)
 		return (1);
-	path = ft_split(search_path(envp), ':');
-	printf("%s\n",path[0]);
+	info_execve = malloc(sizeof(t_execve));
+	if (!info_execve)
+		return (1);
+	info_execve->envp = ft_split(search_path(envp), ':');
 	if (allocate_info(argv, &info_execve) != 0)
 		exit(EXIT_FAILURE);
 	info_execve->fd = open(info_execve->file1, O_RDONLY);
@@ -118,8 +117,6 @@ int	main(int argc, char **argv, char **envp)
 		free_info_execve(info_execve);
 		exit(EXIT_FAILURE);
 	}
-	info_execve->envp = path;
-	printf("%s\n",info_execve->envp [0]);
 	start_fork_pipe(pipefd, info_execve, envp);
 	free_char_array(info_execve->args_bis);
 	free_char_array(info_execve->args);
