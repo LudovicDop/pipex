@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 17:38:45 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/24 14:28:33 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/24 14:49:18 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,22 @@
 void	parent_process_bis(int *pipefd, t_execve *info_execve, char **envp,
 		int fd)
 {
-    close(pipefd[0]);
+	close(pipefd[0]);
 	if (dup2(fd, STDOUT_FILENO) == -1)
 	{
-        free_char_array(info_execve->args_bis);
-	    free_char_array(info_execve->args);
-	    free_info_execve(info_execve);
+		free_char_array(info_execve->args_bis);
+		free_char_array(info_execve->args);
+		free_info_execve(info_execve);
 		perror("dup2");
 		exit(EXIT_FAILURE);
 	}
 	close(fd);
-	if (execve(info_execve->exec_file_bis_path, info_execve->args_bis, envp)
-		== -1)
+	if (-1 == \
+execve(info_execve->exec_file_bis_path, info_execve->args_bis, envp))
 	{
-        free_char_array(info_execve->args_bis);
-	    free_char_array(info_execve->args);
-	    free_info_execve(info_execve);
+		free_char_array(info_execve->args_bis);
+		free_char_array(info_execve->args);
+		free_info_execve(info_execve);
 		perror("execve");
 		exit(EXIT_FAILURE);
 	}
@@ -49,16 +49,16 @@ void	parent_process(int *pipefd, t_execve *info_execve, char **envp)
 	if (fd < 0)
 	{
 		perror("open");
-        free_char_array(info_execve->args_bis);
-	    free_char_array(info_execve->args);
-	    free_info_execve(info_execve);
+		free_char_array(info_execve->args_bis);
+		free_char_array(info_execve->args);
+		free_info_execve(info_execve);
 		exit(EXIT_FAILURE);
 	}
 	if (dup2(pipefd[0], STDIN_FILENO) == -1)
 	{
-        free_char_array(info_execve->args_bis);
-	    free_char_array(info_execve->args);
-	    free_info_execve(info_execve);
+		free_char_array(info_execve->args_bis);
+		free_char_array(info_execve->args);
+		free_info_execve(info_execve);
 		perror("dup2");
 		exit(EXIT_FAILURE);
 	}
