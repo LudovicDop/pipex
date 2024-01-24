@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ludovicdoppler <ludovicdoppler@student.    +#+  +:+       +#+        */
+/*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 17:50:23 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/22 10:23:14 by ludovicdopp      ###   ########.fr       */
+/*   Updated: 2024/01/24 11:44:27 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	free_char_array(char **array)
 	}
 	free(array);
 }
+
 char	*search_path(char **envp)
 {
 	int	i;
@@ -41,5 +42,5 @@ char	*search_path(char **envp)
 		}
 		i++;
 	}
-	return NULL;
+	return (NULL);
 }

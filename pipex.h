@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:25:40 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/24 10:58:17 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/24 11:47:18 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
+
 typedef struct s_execve
 {
 	char	**argv_args;
@@ -34,9 +35,9 @@ typedef struct s_execve
 }			t_execve;
 
 void		free_char_array(char **array);
-void	parent_process(int *pipefd, t_execve *info_execve, char **envp);
+void		parent_process(int *pipefd, t_execve *info_execve, char **envp);
 void		child_process(int fd, char **args, t_execve *info_execve,
-				int *pipefd, char **envp);
-char	*search_path(char **envp);
+			int *pipefd, char **envp);
+char		*search_path(char **envp);
 
 #endif
