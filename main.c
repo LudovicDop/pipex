@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/24 16:49:41 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/24 17:07:59 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,33 @@ int	allocate_info_bis(t_execve **info_execve, char **argv)
 		return (free_char_array((*info_execve)->args), 1);
 	return (0);
 }
+char	*good_path(t_execve **info_execve, char* exec_file)
+{
+	int i;
+	char *new_exec;
+	char *tmp;
 
+	i = 0;
+	new_exec = ft_strjoin("/", exec_file);
+	while ((*info_execve)->envp[i] != NULL)
+	{
+		tmp = ft_strjoin((*info_execve)->envp[i], new_exec);
+		if (access(tmp, F_OK) == 0)
+		{
+			printf("PATH FIND : %s\n", (*info_execve)->envp[i]);
+			free(new_exec);
+			free(tmp);
+			return (ft_strjoin((*info_execve)->envp[i], "/"));
+		}
+		i++;
+	}
+	free(new_exec);
+	free(tmp);
+	return (0);
+}
 int	allocate_info_bis_2(t_execve **info_execve, char **argv, char *tmp)
 {
-	(*info_execve)->exec_file_path = ft_strjoin("/usr/bin/",
+	(*info_execve)->exec_file_path = ft_strjoin(good_path(info_execve, (*info_execve)->exec_file),
 			(*info_execve)->exec_file);
 	if (!(*info_execve)->exec_file_path)
 		return (free_info_execve(*info_execve), 4);
@@ -60,7 +83,7 @@ int	allocate_info_bis_2(t_execve **info_execve, char **argv, char *tmp)
 		if (!(*info_execve)->exec_file_bis)
 			return (free_info_execve(*info_execve), 5);
 	}
-	(*info_execve)->exec_file_bis_path = ft_strjoin("/usr/bin/",
+	(*info_execve)->exec_file_bis_path = ft_strjoin(good_path(info_execve, (*info_execve)->exec_file_bis),
 			(*info_execve)->exec_file_bis);
 	if (!(*info_execve)->exec_file_bis_path)
 		return (free_info_execve(*info_execve), 5);
