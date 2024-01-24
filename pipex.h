@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ludovicdoppler <ludovicdoppler@student.    +#+  +:+       +#+        */
+/*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:25:40 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/22 10:20:16 by ludovicdopp      ###   ########.fr       */
+/*   Updated: 2024/01/24 10:58:17 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ typedef struct s_execve
 }			t_execve;
 
 void		free_char_array(char **array);
-void	parent_process(int *pipefd, t_execve *info_execve);
+void	parent_process(int *pipefd, t_execve *info_execve, char **envp);
 void		child_process(int fd, char **args, t_execve *info_execve,
-				int *pipefd);
+				int *pipefd, char **envp);
 char	*search_path(char **envp);
 
 #endif
