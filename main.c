@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/24 17:07:59 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/25 11:54:26 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ char	*good_path(t_execve **info_execve, char* exec_file)
 	int i;
 	char *new_exec;
 	char *tmp;
+	char *ret;
 
 	i = 0;
 	new_exec = ft_strjoin("/", exec_file);
@@ -54,10 +55,12 @@ char	*good_path(t_execve **info_execve, char* exec_file)
 		if (access(tmp, F_OK) == 0)
 		{
 			printf("PATH FIND : %s\n", (*info_execve)->envp[i]);
-			free(new_exec);
 			free(tmp);
-			return (ft_strjoin((*info_execve)->envp[i], "/"));
+			free(new_exec);
+			ret = ft_strjoin((*info_execve)->envp[i], "/");
+			return (ret);
 		}
+		free(tmp);
 		i++;
 	}
 	free(new_exec);
@@ -66,7 +69,7 @@ char	*good_path(t_execve **info_execve, char* exec_file)
 }
 int	allocate_info_bis_2(t_execve **info_execve, char **argv, char *tmp)
 {
-	(*info_execve)->exec_file_path = ft_strjoin(good_path(info_execve, (*info_execve)->exec_file),
+	(*info_execve)->exec_file_path = ft_strjoin2(good_path(info_execve, (*info_execve)->exec_file),
 			(*info_execve)->exec_file);
 	if (!(*info_execve)->exec_file_path)
 		return (free_info_execve(*info_execve), 4);
@@ -83,14 +86,14 @@ int	allocate_info_bis_2(t_execve **info_execve, char **argv, char *tmp)
 		if (!(*info_execve)->exec_file_bis)
 			return (free_info_execve(*info_execve), 5);
 	}
-	(*info_execve)->exec_file_bis_path = ft_strjoin(good_path(info_execve, (*info_execve)->exec_file_bis),
+	(*info_execve)->exec_file_bis_path = ft_strjoin2(good_path(info_execve, (*info_execve)->exec_file_bis),
 			(*info_execve)->exec_file_bis);
 	if (!(*info_execve)->exec_file_bis_path)
 		return (free_info_execve(*info_execve), 5);
 	(*info_execve)->file2 = ft_strdup(argv[4]);
 	if (!(*info_execve)->exec_file_path)
 		return (free_info_execve(*info_execve), 5);
-	return (0);
+	return (free(tmp), 0);
 }
 
 int	allocate_info(char **argv, t_execve **info_execve)
@@ -135,20 +138,17 @@ int	main(int argc, char **argv, char **envp)
 	info_execve->fd = open(info_execve->file1, O_RDONLY);
 	if (info_execve->fd < 0)
 	{
+		printf("ALAIN\n");
 		free_char_array(info_execve->args_bis);
 		free_char_array(info_execve->args);
+		free_char_array(info_execve->envp);
 		free_info_execve(info_execve);
 		exit(EXIT_FAILURE);
 	}
 	start_fork_pipe(pipefd, info_execve, envp);
+	free_char_array(info_execve->envp);
 	free_char_array(info_execve->args_bis);
 	free_char_array(info_execve->args);
 	free_info_execve(info_execve);
 	return (0);
 }
-
-/*
-PATH
-ACCESS/LOOP les chemins different
-Bien penser a marcher pour chemin absolut
-*/

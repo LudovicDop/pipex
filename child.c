@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 17:38:40 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/24 14:13:05 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/25 11:29:45 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 
 void	child_process(int fd, char **args, t_execve *info_execve, int *pipefd)
 {
+	printf("hey\n");
+	if(access(info_execve->file1, F_OK) != 0)
+	{
+		printf("ddddddd\n");
+		free_char_array(info_execve->args_bis);
+		free_char_array(info_execve->args);
+		free_info_execve(info_execve);
+	}
 	close(pipefd[0]);
 	dup2(pipefd[1], STDOUT_FILENO);
 	close(pipefd[1]);
