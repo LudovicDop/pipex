@@ -6,29 +6,11 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/25 12:52:56 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/25 13:48:06 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-void	free_info_execve(t_execve *info_execve)
-{
-	if (info_execve->file1)
-		free(info_execve->file1);
-	if (info_execve->exec_file)
-		free(info_execve->exec_file);
-	if (info_execve->exec_file_path)
-		free(info_execve->exec_file_path);
-	if (info_execve->exec_file_bis_path)
-		free(info_execve->exec_file_bis_path);
-	if (info_execve->exec_file_bis)
-		free(info_execve->exec_file_bis);
-	if (info_execve->file2)
-		free(info_execve->file2);
-	if (info_execve)
-		free(info_execve);
-}
 
 int	allocate_info_bis(t_execve **info_execve, char **argv)
 {
@@ -40,12 +22,13 @@ int	allocate_info_bis(t_execve **info_execve, char **argv)
 		return (free_char_array((*info_execve)->args), 1);
 	return (0);
 }
-char	*good_path(t_execve **info_execve, char* exec_file)
+
+char	*good_path(t_execve **info_execve, char *exec_file)
 {
-	int i;
-	char *new_exec;
-	char *tmp;
-	char *ret;
+	int		i;
+	char	*new_exec;
+	char	*tmp;
+	char	*ret;
 
 	i = 0;
 	new_exec = ft_strjoin("/", exec_file);
@@ -54,7 +37,6 @@ char	*good_path(t_execve **info_execve, char* exec_file)
 		tmp = ft_strjoin((*info_execve)->envp[i], new_exec);
 		if (access(tmp, F_OK) == 0)
 		{
-			printf("PATH FIND : %s\n", (*info_execve)->envp[i]);
 			free(tmp);
 			free(new_exec);
 			ret = ft_strjoin((*info_execve)->envp[i], "/");
@@ -66,12 +48,13 @@ char	*good_path(t_execve **info_execve, char* exec_file)
 	free(new_exec);
 	return (0);
 }
+
 int	allocate_info_bis_2(t_execve **info_execve, char **argv, char *tmp)
 {
-	(*info_execve)->exec_file_path = ft_strjoin2(good_path(info_execve, (*info_execve)->exec_file),
-			(*info_execve)->exec_file);
+	(*info_execve)->exec_file_path = ft_strjoin2(good_path(info_execve,
+				(*info_execve)->exec_file), (*info_execve)->exec_file);
 	if (!(*info_execve)->exec_file_path)
-		return (free_char_array((*info_execve)->envp), free_info_execve(*info_execve), 5);
+		bis(info_execve);
 	tmp = ft_strchr_reverse(argv[3], ' ');
 	if (tmp != NULL)
 	{
@@ -88,10 +71,10 @@ int	allocate_info_bis_2(t_execve **info_execve, char **argv, char *tmp)
 	(*info_execve)->file2 = ft_strdup(argv[4]);
 	if (!(*info_execve)->exec_file_path)
 		return (free_info_execve(*info_execve), 5);
-	(*info_execve)->exec_file_bis_path = ft_strjoin2(good_path(info_execve, (*info_execve)->exec_file_bis),
-			(*info_execve)->exec_file_bis);
+	(*info_execve)->exec_file_bis_path = ft_strjoin2(good_path(info_execve,
+				(*info_execve)->exec_file_bis), (*info_execve)->exec_file_bis);
 	if (!(*info_execve)->exec_file_bis_path)
-		return (free_char_array((*info_execve)->envp), free_info_execve(*info_execve), 5);
+		bis(info_execve);
 	return (free(tmp), 0);
 }
 
@@ -116,7 +99,7 @@ int	allocate_info(char **argv, t_execve **info_execve)
 		if (!(*info_execve)->exec_file)
 			return (free_info_execve(*info_execve), 3);
 	}
-	if ( allocate_info_bis_2(info_execve, argv, tmp) != 0)
+	if (allocate_info_bis_2(info_execve, argv, tmp) != 0)
 		exit(EXIT_FAILURE);
 	return (allocate_info_bis(info_execve, argv));
 }
@@ -125,11 +108,12 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_execve	*info_execve;
 	int			pipefd[2];
-	char **path;
+	char		**path;
 
 	if (argc != 5)
 		return (1);
 	info_execve = malloc(sizeof(t_execve));
+	init(info_execve);
 	if (!info_execve)
 		return (1);
 	info_execve->envp = ft_split(search_path(envp), ':');
@@ -141,8 +125,7 @@ int	main(int argc, char **argv, char **envp)
 		perror("open");
 		free_everything(info_execve);
 	}
-	
-	(pipefd, info_execve, envp);
+	start_fork_pipe(pipefd, info_execve, envp);
 	free_char_array(info_execve->envp);
 	free_char_array(info_execve->args_bis);
 	free_char_array(info_execve->args);

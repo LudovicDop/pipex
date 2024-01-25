@@ -4,6 +4,7 @@
     "when": "editorTextFocus",
     "files.associations": {
       "libft.h": "c",
-      "fcntl.h": "c"
+      "fcntl.h": "c",
+      "pipex.h": "c"
     }
   }
