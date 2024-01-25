@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:25:40 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/25 11:53:12 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/25 11:57:20 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,5 @@ void		start_fork_pipe(int *pipefd, t_execve *info_execve, char **envp);
 char		*ft_strchr_reverse(char *string, int c);
 void		free_info_execve(t_execve *info_execve);
 char	*ft_strjoin2(char *s1, char *s2);
+void	free_everything(t_execve *info_execve);
 #endif

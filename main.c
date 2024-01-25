@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/25 11:54:26 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/25 12:52:56 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ char	*good_path(t_execve **info_execve, char* exec_file)
 		i++;
 	}
 	free(new_exec);
-	free(tmp);
 	return (0);
 }
 int	allocate_info_bis_2(t_execve **info_execve, char **argv, char *tmp)
@@ -72,7 +71,7 @@ int	allocate_info_bis_2(t_execve **info_execve, char **argv, char *tmp)
 	(*info_execve)->exec_file_path = ft_strjoin2(good_path(info_execve, (*info_execve)->exec_file),
 			(*info_execve)->exec_file);
 	if (!(*info_execve)->exec_file_path)
-		return (free_info_execve(*info_execve), 4);
+		return (free_char_array((*info_execve)->envp), free_info_execve(*info_execve), 5);
 	tmp = ft_strchr_reverse(argv[3], ' ');
 	if (tmp != NULL)
 	{
@@ -86,13 +85,13 @@ int	allocate_info_bis_2(t_execve **info_execve, char **argv, char *tmp)
 		if (!(*info_execve)->exec_file_bis)
 			return (free_info_execve(*info_execve), 5);
 	}
-	(*info_execve)->exec_file_bis_path = ft_strjoin2(good_path(info_execve, (*info_execve)->exec_file_bis),
-			(*info_execve)->exec_file_bis);
-	if (!(*info_execve)->exec_file_bis_path)
-		return (free_info_execve(*info_execve), 5);
 	(*info_execve)->file2 = ft_strdup(argv[4]);
 	if (!(*info_execve)->exec_file_path)
 		return (free_info_execve(*info_execve), 5);
+	(*info_execve)->exec_file_bis_path = ft_strjoin2(good_path(info_execve, (*info_execve)->exec_file_bis),
+			(*info_execve)->exec_file_bis);
+	if (!(*info_execve)->exec_file_bis_path)
+		return (free_char_array((*info_execve)->envp), free_info_execve(*info_execve), 5);
 	return (free(tmp), 0);
 }
 
@@ -117,7 +116,8 @@ int	allocate_info(char **argv, t_execve **info_execve)
 		if (!(*info_execve)->exec_file)
 			return (free_info_execve(*info_execve), 3);
 	}
-	allocate_info_bis_2(info_execve, argv, tmp);
+	if ( allocate_info_bis_2(info_execve, argv, tmp) != 0)
+		exit(EXIT_FAILURE);
 	return (allocate_info_bis(info_execve, argv));
 }
 
@@ -138,14 +138,11 @@ int	main(int argc, char **argv, char **envp)
 	info_execve->fd = open(info_execve->file1, O_RDONLY);
 	if (info_execve->fd < 0)
 	{
-		printf("ALAIN\n");
-		free_char_array(info_execve->args_bis);
-		free_char_array(info_execve->args);
-		free_char_array(info_execve->envp);
-		free_info_execve(info_execve);
-		exit(EXIT_FAILURE);
+		perror("open");
+		free_everything(info_execve);
 	}
-	start_fork_pipe(pipefd, info_execve, envp);
+	
+	(pipefd, info_execve, envp);
 	free_char_array(info_execve->envp);
 	free_char_array(info_execve->args_bis);
 	free_char_array(info_execve->args);

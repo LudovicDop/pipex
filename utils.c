@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 17:50:23 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/25 11:53:29 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/25 12:39:51 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,4 +124,13 @@ char	*ft_strjoin2(char *s1, char *s2)
 	}
 	ret[i] = '\0';
 	return (free(s1), ret);
+}
+
+void	free_everything(t_execve *info_execve)
+{
+		free_char_array(info_execve->args_bis);
+		free_char_array(info_execve->args);
+		free_char_array(info_execve->envp);
+		free_info_execve(info_execve);
+		exit(EXIT_FAILURE);
 }
