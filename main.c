@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/25 13:55:26 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/25 14:35:29 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	main(int argc, char **argv, char **envp)
 	info_execve = malloc(sizeof(t_execve));
 	if (!info_execve)
 		return (1);
-	init(info_execve);
+	init(info_execve, argv);
 	info_execve->envp = ft_split(search_path(envp), ':');
 	if (allocate_info(argv, &info_execve) != 0)
 		exit(EXIT_FAILURE);

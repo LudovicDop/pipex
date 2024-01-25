@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 17:38:40 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/25 13:47:21 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/25 14:42:00 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	child_process(int fd, char **args, t_execve *info_execve, int *pipefd)
 	if (access(info_execve->file1, F_OK) != 0)
 	{
 		free_char_array(info_execve->args_bis);
+		free_char_array(info_execve->envp);
 		free_char_array(info_execve->args);
 		free_info_execve(info_execve);
 	}
@@ -25,7 +26,14 @@ void	child_process(int fd, char **args, t_execve *info_execve, int *pipefd)
 	close(pipefd[1]);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	execve(info_execve->exec_file_path, args, info_execve->envp);
-	perror("execve");
+	if (execve(info_execve->exec_file_path, args, info_execve->envp) < 0)
+	{
+		free_char_array(info_execve->args_bis);
+		free_char_array(info_execve->envp);
+		free_char_array(info_execve->args);
+		free_info_execve(info_execve);
+		perror("execve");
+		exit(EXIT_FAILURE);
+	}
 	exit(EXIT_SUCCESS);
 }

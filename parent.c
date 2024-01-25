@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 17:38:45 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/24 15:10:00 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/25 14:41:40 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	parent_process_bis(int *pipefd, t_execve *info_execve, char **envp,
 			envp))
 	{
 		free_char_array(info_execve->args_bis);
+		free_char_array(info_execve->envp);
 		free_char_array(info_execve->args);
 		free_info_execve(info_execve);
 		perror("execve");

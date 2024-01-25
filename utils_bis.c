@@ -6,13 +6,13 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:31:47 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/25 13:48:13 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/25 14:41:50 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	init(t_execve *info)
+void	init(t_execve *info, char **argv)
 {
 	info->args = NULL;
 	info->args_bis = NULL;
@@ -25,6 +25,11 @@ void	init(t_execve *info)
 	info->exec_file_path = NULL;
 	info->file1 = NULL;
 	info->file2 = NULL;
+	if (ft_strlen(argv[2]) == 0 || ft_strlen(argv[3]) == 0)
+	{
+		ft_putstr_fd("Empty cmd file\n", 2);
+		exit(EXIT_FAILURE);
+	}
 }
 
 void	free_everything(t_execve *info_execve)

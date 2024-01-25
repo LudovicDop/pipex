@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:25:40 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/25 13:49:37 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/25 14:42:13 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char		*ft_strchr_reverse(char *string, int c);
 void		free_info_execve(t_execve *info_execve);
 char		*ft_strjoin2(char *s1, char *s2);
 void		free_everything(t_execve *info_execve);
-void		init(t_execve *info);
+void		init(t_execve *info, char **argv);
 void		free_info_execve(t_execve *info_execve);
 void		bis(t_execve **info_execve);
 #endif
