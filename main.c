@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/26 10:22:41 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/26 15:09:44 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ char	*good_path(t_execve **info_execve, char *exec_file)
 	char	*ret;
 
 	i = 0;
+	if (access(exec_file, F_OK) == 0)
+		return (exec_file);
 	new_exec = ft_strjoin("/", exec_file);
 	while ((*info_execve)->envp[i] != NULL)
 	{
@@ -40,6 +42,7 @@ char	*good_path(t_execve **info_execve, char *exec_file)
 			free(tmp);
 			free(new_exec);
 			ret = ft_strjoin((*info_execve)->envp[i], "/");
+			ret = ft_strjoin2(ret, exec_file);
 			return (ret);
 		}
 		free(tmp);
@@ -51,8 +54,8 @@ char	*good_path(t_execve **info_execve, char *exec_file)
 
 int	allocate_info_bis_2(t_execve **info_execve, char **argv, char *tmp)
 {
-	(*info_execve)->exec_file_path = ft_strjoin2(good_path(info_execve,
-				(*info_execve)->exec_file), (*info_execve)->exec_file);
+	(*info_execve)->exec_file_path = good_path(info_execve,
+				(*info_execve)->exec_file);
 	if (!(*info_execve)->exec_file_path)
 		bis(info_execve);
 	tmp = ft_strchr_reverse(argv[3], ' ');
@@ -71,8 +74,8 @@ int	allocate_info_bis_2(t_execve **info_execve, char **argv, char *tmp)
 	(*info_execve)->file2 = ft_strdup(argv[4]);
 	if (!(*info_execve)->exec_file_path)
 		return (free_info_execve(*info_execve), 5);
-	(*info_execve)->exec_file_bis_path = ft_strjoin2(good_path(info_execve,
-				(*info_execve)->exec_file_bis), (*info_execve)->exec_file_bis);
+	(*info_execve)->exec_file_bis_path = good_path(info_execve,
+				(*info_execve)->exec_file_bis);
 	if (!(*info_execve)->exec_file_bis_path)
 		bis(info_execve);
 	return (free(tmp), 0);
@@ -121,14 +124,13 @@ int	main(int argc, char **argv, char **envp)
 	info_execve->fd = open(info_execve->file1, O_RDONLY);
 	if (info_execve->fd < 0)
 	{
+		printf("OK\n");
 		perror("open");
 		free_everything(info_execve);
+		exit(EXIT_FAILURE);
 	}
 	start_fork_pipe(pipefd, info_execve, envp);
 	close(info_execve->fd);
-	free_char_array(info_execve->envp);
-	free_char_array(info_execve->args_bis);
-	free_char_array(info_execve->args);
-	free_info_execve(info_execve);
+	free_everything(info_execve);
 	return (0);
 }
