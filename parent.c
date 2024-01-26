@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 17:38:45 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/26 11:14:55 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/26 11:30:52 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	parent_process(int *pipefd, t_execve *info_execve, char **envp)
 {
 	int	fd;
 
-	wait(NULL);
 	close(pipefd[1]);
 	fd = open(info_execve->file2, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
