@@ -1,13 +1,14 @@
 MAKEFLAGS += --silent
 SRC = main.c parent.c child.c utils.c utils_bis.c
-CC = gcc -Wall -Werror -Wextra -fsanitize=address -g3
+CC = gcc -Wall -Werror -Wextra -g3
+OBJ = $(SRC:.c=.o)
 NAME = pipex
 
 all : $(NAME)
 
-$(NAME) :
+$(NAME) : $(OBJ)
 	make -C libft/
-	$(CC) $(SRC) -L./libft -lft -o $(NAME)
+	$(CC) $(OBJ) -L./libft -lft -o $(NAME)
 	echo "Done ✅"
 clean :
 	make clean -C libft/

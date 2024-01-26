@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/25 14:35:29 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/26 10:22:41 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ int	main(int argc, char **argv, char **envp)
 		free_everything(info_execve);
 	}
 	start_fork_pipe(pipefd, info_execve, envp);
+	close(info_execve->fd);
 	free_char_array(info_execve->envp);
 	free_char_array(info_execve->args_bis);
 	free_char_array(info_execve->args);

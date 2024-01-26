@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 17:50:23 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/25 13:47:29 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/26 10:57:43 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	start_fork_pipe(int *pipefd, t_execve *info_execve, char **envp)
 	if (pipe(pipefd) == -1)
 	{
 		perror("pipe");
+		close(info_execve->fd);
 		free_char_array(info_execve->args_bis);
 		free_char_array(info_execve->args);
 		free_info_execve(info_execve);
@@ -59,6 +60,7 @@ void	start_fork_pipe(int *pipefd, t_execve *info_execve, char **envp)
 	if (info_execve->id == -1)
 	{
 		perror("fork");
+		close(info_execve->fd);
 		free_char_array(info_execve->args_bis);
 		free_char_array(info_execve->args);
 		free_info_execve(info_execve);

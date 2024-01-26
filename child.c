@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 17:38:40 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/25 14:42:00 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/26 10:58:14 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	child_process(int fd, char **args, t_execve *info_execve, int *pipefd)
 {
 	if (access(info_execve->file1, F_OK) != 0)
 	{
+		close(info_execve->fd);
 		free_char_array(info_execve->args_bis);
 		free_char_array(info_execve->envp);
 		free_char_array(info_execve->args);
@@ -28,6 +29,7 @@ void	child_process(int fd, char **args, t_execve *info_execve, int *pipefd)
 	close(fd);
 	if (execve(info_execve->exec_file_path, args, info_execve->envp) < 0)
 	{
+		close(info_execve->fd);
 		free_char_array(info_execve->args_bis);
 		free_char_array(info_execve->envp);
 		free_char_array(info_execve->args);
@@ -35,5 +37,6 @@ void	child_process(int fd, char **args, t_execve *info_execve, int *pipefd)
 		perror("execve");
 		exit(EXIT_FAILURE);
 	}
+	close(info_execve->fd);
 	exit(EXIT_SUCCESS);
 }
