@@ -12,8 +12,9 @@ $(NAME) : $(OBJ)
 	echo "Done ✅"
 clean :
 	make clean -C libft/
+	rm -rf $(OBJ)
 	echo "Cleaning has been carried out 🚮"
-fclean :
+fclean : clean
 	make fclean -C libft/
 	rm -rf pipex
 	echo "🚨Cleaning++ has been carried out 🚮🚨"
