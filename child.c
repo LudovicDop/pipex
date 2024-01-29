@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 17:38:40 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/26 15:09:03 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/29 09:24:49 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	child_process(int fd, char **args, t_execve *info_execve, int *pipefd)
 {
 	if (access(info_execve->file1, F_OK) != 0)
 	{
-		printf("OK\n");
 		close(info_execve->fd);
 		free_everything(info_execve);
 		exit(EXIT_FAILURE);
@@ -26,7 +25,6 @@ void	child_process(int fd, char **args, t_execve *info_execve, int *pipefd)
 	close(pipefd[1]);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	//close(info_execve->fd);
 	if (execve(info_execve->exec_file_path, args, info_execve->envp) < 0)
 	{
 		perror("execve");

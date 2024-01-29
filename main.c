@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/29 09:13:51 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/29 09:35:47 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ char	*good_path(t_execve **info_execve, char *exec_file)
 
 int	allocate_info_bis_2(t_execve **info_execve, char **argv, char *tmp)
 {
-	(*info_execve)->exec_file_path = good_path(info_execve,
-				(*info_execve)->exec_file);
+	(*info_execve)->exec_file_path = good_path(info_execve, \
+	(*info_execve)->exec_file);
 	if (!(*info_execve)->exec_file_path)
 		bis(info_execve);
 	tmp = ft_strchr_reverse(argv[3], ' ');
@@ -75,7 +75,7 @@ int	allocate_info_bis_2(t_execve **info_execve, char **argv, char *tmp)
 	if (!(*info_execve)->exec_file_path)
 		return (free_info_execve(*info_execve), 5);
 	(*info_execve)->exec_file_bis_path = good_path(info_execve,
-				(*info_execve)->exec_file_bis);
+			(*info_execve)->exec_file_bis);
 	if (!(*info_execve)->exec_file_bis_path)
 		bis(info_execve);
 	return (free(tmp), 0);
@@ -91,16 +91,13 @@ int	allocate_info(char **argv, t_execve **info_execve)
 	tmp = ft_strchr_reverse(argv[2], ' ');
 	if (tmp != NULL)
 	{
-				printf("RE2\n");
 		(*info_execve)->exec_file = ft_strdup(tmp);
-		printf("result %s\n",(*info_execve)->exec_file);
 		if (!(*info_execve)->exec_file)
 			return (free_info_execve(*info_execve), 2);
 		free(tmp);
 	}
 	else
 	{
-		printf("RE\n");
 		(*info_execve)->exec_file = ft_strdup(argv[2]);
 		if (!(*info_execve)->exec_file)
 			return (free_info_execve(*info_execve), 3);
