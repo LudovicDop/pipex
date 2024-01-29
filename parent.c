@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 17:38:45 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/26 14:38:11 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/29 09:10:02 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	parent_process_bis(int *pipefd, t_execve *info_execve, char **envp,
 	if (-1 == execve(info_execve->exec_file_bis_path, info_execve->args_bis,
 			envp))
 	{
+		printf("ICI\n");
 		free_everything(info_execve);
 		perror("execve");
 		exit(EXIT_FAILURE);
@@ -41,7 +42,7 @@ void	parent_process(int *pipefd, t_execve *info_execve, char **envp)
 	fd = open(info_execve->file2, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
-		perror("gvuvyopen");
+		perror("open");
 		free_everything(info_execve);
 		close(fd);
 		close(info_execve->fd);

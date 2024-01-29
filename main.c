@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/29 08:35:56 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/29 09:13:51 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,16 @@ int	allocate_info(char **argv, t_execve **info_execve)
 	tmp = ft_strchr_reverse(argv[2], ' ');
 	if (tmp != NULL)
 	{
+				printf("RE2\n");
 		(*info_execve)->exec_file = ft_strdup(tmp);
+		printf("result %s\n",(*info_execve)->exec_file);
 		if (!(*info_execve)->exec_file)
 			return (free_info_execve(*info_execve), 2);
 		free(tmp);
 	}
 	else
 	{
+		printf("RE\n");
 		(*info_execve)->exec_file = ft_strdup(argv[2]);
 		if (!(*info_execve)->exec_file)
 			return (free_info_execve(*info_execve), 3);
@@ -124,7 +127,6 @@ int	main(int argc, char **argv, char **envp)
 	info_execve->fd = open(info_execve->file1, O_RDONLY);
 	if (info_execve->fd < 0)
 	{
-		printf("OK\n");
 		perror("open");
 		free_everything(info_execve);
 		exit(EXIT_FAILURE);

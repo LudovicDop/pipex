@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 17:50:23 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/26 11:14:57 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/29 09:09:05 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,23 +75,28 @@ void	start_fork_pipe(int *pipefd, t_execve *info_execve, char **envp)
 char	*ft_strchr_reverse(char *string, int c)
 {
 	int		i;
+	static int test;
 	int		size;
 	char	*ret;
-
+	test++;
 	i = 0;
 	size = 0;
 	if (!string)
 		return (NULL);
-	while (string[i++])
+	while (string[i])
 	{
+		printf("==%c==%c==\n",string[i], c);
 		if (string[i] == c)
 		{
 			size = i + 1;
 			ret = ft_calloc(sizeof(char), size);
 			if (!ret)
 				return (NULL);
+			break;
 		}
+		i++;
 	}
+	printf("SIZE %d= %d\n",test,size);
 	if (size == 0)
 		return (NULL);
 	i = -1;
