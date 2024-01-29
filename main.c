@@ -6,7 +6,7 @@
 /*   By: ldoppler <ldoppler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:03:41 by ldoppler          #+#    #+#             */
-/*   Updated: 2024/01/26 15:09:44 by ldoppler         ###   ########.fr       */
+/*   Updated: 2024/01/29 08:35:56 by ldoppler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*good_path(t_execve **info_execve, char *exec_file)
 
 	i = 0;
 	if (access(exec_file, F_OK) == 0)
-		return (exec_file);
+		return (ret = ft_strdup(exec_file));
 	new_exec = ft_strjoin("/", exec_file);
 	while ((*info_execve)->envp[i] != NULL)
 	{
