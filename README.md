@@ -17,3 +17,5 @@ How to compiled my project :
 - "make clean" (removes all .o files from the compilation)
 - "make fclean" (removes all compiled files)
 - "make re" (cleans and recompiles my project)
+
+<img src="https://github.com/LudovicDop/img/blob/main/logo-ecole-42-mulhouse.jpg" width="500" >
